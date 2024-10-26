@@ -58,7 +58,7 @@ const find = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const userId = req.params.id;
-  const existingUser = await User.deleteById({ userId });
+  const existingUser = await User.deleteById({ id: userId });
   res.send(existingUser).status(200);
 }
 
