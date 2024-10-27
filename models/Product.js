@@ -40,7 +40,7 @@ const Product = {
     const collection = db.collection("products");
     const product = {
       name: data.name,
-      descriptio: data.descriptio,
+      description: data.description,
       price: data.price,
       category: data.category,
       rating: data.rating,
