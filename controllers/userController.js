@@ -14,7 +14,6 @@ const create = async (req, res) => {
       firstName,
       lastName,
       email,
-      password,
       mobile,
       address,
       role,
@@ -27,9 +26,6 @@ const create = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = {
       firstName,
       lastName,
@@ -38,21 +34,31 @@ const create = async (req, res) => {
       address,
       role,
       profilePicture,
-      firebaseId,
-      password: hashedPassword,
+      firebaseId
     };
 
     let saved = await User.create(newUser);
     res.send(saved).status(201);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
+};
+
+const update = async (req, res) => {
+  const id = req.params.id;
+  let saved = await User.updateById(id, req.body);
+  res.send(saved).status(201);
 };
 
 const find = async (req, res) => {
   const userId = req.params.id;
   const existingUser = await User.findById({ id: userId });
+  res.send(existingUser).status(200);
+}
+
+const findByFirebase = async (req, res) => {
+  const userId = req.params.id;
+  const existingUser = await User.findByFirebaseId({ userId });
   res.send(existingUser).status(200);
 }
 
@@ -88,4 +94,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { findAll, find, create, deleteUser, loginUser };
+export { findAll, find, findByFirebase, create, update, deleteUser, loginUser };
