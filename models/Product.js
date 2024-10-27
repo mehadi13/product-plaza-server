@@ -52,6 +52,28 @@ const Product = {
     return result;
   },
 
+  update: async (id, data) => {
+    const collection = db.collection("products");
+
+    const updatedProduct = {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        category: data.category,
+        rating: data.rating,
+        stock: data.stock,
+        image: data.image || "default-product.png", // Use provided image or default
+        updatedAt: new Date(), // Track the update time
+    };
+
+    const result = await collection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: updatedProduct }
+    );
+
+    return result;
+},
+
   // Find by category
   findByCategory: async (category, page = 1, limit = 10) => {
     try {

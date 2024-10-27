@@ -19,6 +19,13 @@ const create = async (req, res) => {
   res.send(saved).status(201);
 };
 
+const update = async (req, res) => {
+  console.log('=============')
+  const id = req.params.id;
+  let saved = await Product.update(id, req.body);
+  res.send(saved).status(201);
+};
+
 const find = async (req, res) => {
   const id = req.params.id;
   const product = await Product.findById({ id });
@@ -31,4 +38,4 @@ const deleteProduct = async (req, res) => {
   res.send(product).status(200);
 };
 
-export { findAll, findByCategory, find, create, deleteProduct };
+export { findAll, findByCategory, find, create, update, deleteProduct };
